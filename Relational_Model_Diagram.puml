@@ -1,0 +1,76 @@
+@startuml
+entity Customer {
+  + CustomerID : INT [PK]
+  --
+  Name : VARCHAR
+  Contact_Info : VARCHAR
+  Membership_Status : BOOLEAN
+}
+
+entity Book {
+  + ISBN : VARCHAR [PK]
+  --
+  Title : VARCHAR
+  Author : VARCHAR
+  Genre : VARCHAR
+  Year_of_Publication : INT
+}
+
+entity CafeItem {
+  + ItemID : INT [PK]
+  --
+  Name : VARCHAR
+  Category : VARCHAR
+  Price : DECIMAL
+}
+
+entity Employee {
+  + EmployeeID : INT [PK]
+  --
+  Name : VARCHAR
+  Role : VARCHAR
+  Shift_Schedule : VARCHAR
+}
+
+entity Transaction {
+  + TransactionID : INT [PK]
+  --
+  Date : DATE
+  Total_Amount : DECIMAL
+  CustomerID : INT [FK]
+  EmployeeID : INT [FK]
+}
+
+entity Event {
+  + EventID : INT [PK]
+  --
+  Name : VARCHAR
+  Date : DATE
+  Description : VARCHAR
+}
+
+entity TransactionDetail {
+  + TransactionDetailID : INT [PK]
+  --
+  TransactionID : INT [FK]
+  ISBN : VARCHAR [FK]
+  ItemID : INT [FK]
+  Quantity : INT
+}
+
+entity EventAttendance {
+  + EventAttendanceID : INT [PK]
+  --
+  EventID : INT [FK]
+  CustomerID : INT [FK]
+}
+
+Customer ||--o{ Transaction : "1..N"
+Transaction ||--o{ TransactionDetail : "1..N"
+Book ||--|{ TransactionDetail : "1..N"
+CafeItem ||--|{ TransactionDetail : "1..N"
+Employee ||--o{ Transaction : "1..N"
+Customer ||--o{ EventAttendance : "1..N"
+Event ||--|{ EventAttendance : "1..N"
+Employee ||--o{ Event : "1..N"
+@enduml

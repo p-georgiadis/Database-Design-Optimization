@@ -1,0 +1,74 @@
+@startuml
+entity Customer {
+  + CustomerID : INT [PK]
+  --
+  Name : VARCHAR
+  Contact_Info : VARCHAR
+  Membership_Status : BOOLEAN
+}
+
+entity Book {
+  + ISBN : VARCHAR [PK]
+  --
+  Title : VARCHAR
+  Author : VARCHAR
+  Genre : VARCHAR
+  Year_of_Publication : INT
+}
+
+entity CafeItem {
+  + ItemID : INT [PK]
+  --
+  Name : VARCHAR
+  Category : VARCHAR
+  Price : DECIMAL
+}
+
+entity Employee {
+  + EmployeeID : INT [PK]
+  --
+  Name : VARCHAR
+  Role : VARCHAR
+  Shift_Schedule : VARCHAR
+}
+
+entity Transaction {
+  + TransactionID : INT [PK]
+  --
+  Date : DATE
+  Total_Amount : DECIMAL
+}
+
+entity Event {
+  + EventID : INT [PK]
+  --
+  Name : VARCHAR
+  Date : DATE
+  Description : VARCHAR
+}
+
+entity TransactionDetail {
+  + TransactionDetailID : INT [PK]
+  --
+  TransactionID : INT [FK]
+  ISBN : VARCHAR [FK]
+  ItemID : INT [FK]
+  Quantity : INT
+}
+
+entity EventAttendance {
+  + EventAttendanceID : INT [PK]
+  --
+  EventID : INT [FK]
+  CustomerID : INT [FK]
+}
+
+Customer ||--o{ Transaction : "makes"
+Transaction ||--o{ TransactionDetail : "includes"
+Book ||--|{ TransactionDetail : "involves"
+CafeItem ||--|{ TransactionDetail : "contains"
+Employee ||--o{ Transaction : "handled by"
+Customer ||--o{ EventAttendance : "RSVPs for"
+Event ||--|{ EventAttendance : "hosts"
+Employee ||--o{ Event : "organizes"
+@enduml
